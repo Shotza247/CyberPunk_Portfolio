@@ -1,0 +1,228 @@
+[
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Document",
+        "importPath": "docx",
+        "description": "docx",
+        "isExtraImport": true,
+        "detail": "docx",
+        "documentation": {}
+    },
+    {
+        "label": "WD_SECTION",
+        "importPath": "docx.enum.section",
+        "description": "docx.enum.section",
+        "isExtraImport": true,
+        "detail": "docx.enum.section",
+        "documentation": {}
+    },
+    {
+        "label": "WD_ALIGN_PARAGRAPH",
+        "importPath": "docx.enum.text",
+        "description": "docx.enum.text",
+        "isExtraImport": true,
+        "detail": "docx.enum.text",
+        "documentation": {}
+    },
+    {
+        "label": "OxmlElement",
+        "importPath": "docx.oxml",
+        "description": "docx.oxml",
+        "isExtraImport": true,
+        "detail": "docx.oxml",
+        "documentation": {}
+    },
+    {
+        "label": "qn",
+        "importPath": "docx.oxml.ns",
+        "description": "docx.oxml.ns",
+        "isExtraImport": true,
+        "detail": "docx.oxml.ns",
+        "documentation": {}
+    },
+    {
+        "label": "Inches",
+        "importPath": "docx.shared",
+        "description": "docx.shared",
+        "isExtraImport": true,
+        "detail": "docx.shared",
+        "documentation": {}
+    },
+    {
+        "label": "Pt",
+        "importPath": "docx.shared",
+        "description": "docx.shared",
+        "isExtraImport": true,
+        "detail": "docx.shared",
+        "documentation": {}
+    },
+    {
+        "label": "set_cell_text",
+        "kind": 2,
+        "importPath": "build_master_resumes",
+        "description": "build_master_resumes",
+        "peekOfCode": "def set_cell_text(cell, text, bold=False):\n    p = cell.paragraphs[0]\n    p.paragraph_format.space_after = Pt(0)\n    run = p.add_run(text)\n    run.bold = bold\n    run.font.name = \"Calibri\"\n    run.font.size = Pt(10)\n    return p\ndef set_spacing(paragraph, before=0, after=3, line=1.05):\n    paragraph.paragraph_format.space_before = Pt(before)",
+        "detail": "build_master_resumes",
+        "documentation": {}
+    },
+    {
+        "label": "set_spacing",
+        "kind": 2,
+        "importPath": "build_master_resumes",
+        "description": "build_master_resumes",
+        "peekOfCode": "def set_spacing(paragraph, before=0, after=3, line=1.05):\n    paragraph.paragraph_format.space_before = Pt(before)\n    paragraph.paragraph_format.space_after = Pt(after)\n    paragraph.paragraph_format.line_spacing = line\ndef set_run_font(run, size=10.5, bold=False, color=None):\n    run.font.name = \"Calibri\"\n    run._element.rPr.rFonts.set(qn(\"w:ascii\"), \"Calibri\")\n    run._element.rPr.rFonts.set(qn(\"w:hAnsi\"), \"Calibri\")\n    run.font.size = Pt(size)\n    run.bold = bold",
+        "detail": "build_master_resumes",
+        "documentation": {}
+    },
+    {
+        "label": "set_run_font",
+        "kind": 2,
+        "importPath": "build_master_resumes",
+        "description": "build_master_resumes",
+        "peekOfCode": "def set_run_font(run, size=10.5, bold=False, color=None):\n    run.font.name = \"Calibri\"\n    run._element.rPr.rFonts.set(qn(\"w:ascii\"), \"Calibri\")\n    run._element.rPr.rFonts.set(qn(\"w:hAnsi\"), \"Calibri\")\n    run.font.size = Pt(size)\n    run.bold = bold\n    if color:\n        run.font.color.rgb = color\ndef add_bottom_border(paragraph):\n    p = paragraph._p",
+        "detail": "build_master_resumes",
+        "documentation": {}
+    },
+    {
+        "label": "add_bottom_border",
+        "kind": 2,
+        "importPath": "build_master_resumes",
+        "description": "build_master_resumes",
+        "peekOfCode": "def add_bottom_border(paragraph):\n    p = paragraph._p\n    pPr = p.get_or_add_pPr()\n    pBdr = OxmlElement(\"w:pBdr\")\n    bottom = OxmlElement(\"w:bottom\")\n    bottom.set(qn(\"w:val\"), \"single\")\n    bottom.set(qn(\"w:sz\"), \"6\")\n    bottom.set(qn(\"w:space\"), \"1\")\n    bottom.set(qn(\"w:color\"), \"BFBFBF\")\n    pBdr.append(bottom)",
+        "detail": "build_master_resumes",
+        "documentation": {}
+    },
+    {
+        "label": "add_section_heading",
+        "kind": 2,
+        "importPath": "build_master_resumes",
+        "description": "build_master_resumes",
+        "peekOfCode": "def add_section_heading(doc, text):\n    p = doc.add_paragraph()\n    set_spacing(p, before=8, after=3)\n    run = p.add_run(text.upper())\n    set_run_font(run, size=10.5, bold=True)\n    add_bottom_border(p)\n    return p\ndef add_bullet(doc, text):\n    p = doc.add_paragraph(style=\"List Bullet\")\n    set_spacing(p, before=0, after=2, line=1.05)",
+        "detail": "build_master_resumes",
+        "documentation": {}
+    },
+    {
+        "label": "add_bullet",
+        "kind": 2,
+        "importPath": "build_master_resumes",
+        "description": "build_master_resumes",
+        "peekOfCode": "def add_bullet(doc, text):\n    p = doc.add_paragraph(style=\"List Bullet\")\n    set_spacing(p, before=0, after=2, line=1.05)\n    run = p.add_run(text)\n    set_run_font(run, size=9.6)\n    return p\ndef add_role(doc, role, company, dates):\n    p = doc.add_paragraph()\n    set_spacing(p, before=5, after=1)\n    r1 = p.add_run(role)",
+        "detail": "build_master_resumes",
+        "documentation": {}
+    },
+    {
+        "label": "add_role",
+        "kind": 2,
+        "importPath": "build_master_resumes",
+        "description": "build_master_resumes",
+        "peekOfCode": "def add_role(doc, role, company, dates):\n    p = doc.add_paragraph()\n    set_spacing(p, before=5, after=1)\n    r1 = p.add_run(role)\n    set_run_font(r1, size=10.2, bold=True)\n    r2 = p.add_run(f\" | {company}\")\n    set_run_font(r2, size=10.2, bold=True)\n    r3 = p.add_run(f\" | {dates}\")\n    set_run_font(r3, size=10.2)\ndef add_skills(doc, skills):",
+        "detail": "build_master_resumes",
+        "documentation": {}
+    },
+    {
+        "label": "add_skills",
+        "kind": 2,
+        "importPath": "build_master_resumes",
+        "description": "build_master_resumes",
+        "peekOfCode": "def add_skills(doc, skills):\n    for label, values in skills:\n        p = doc.add_paragraph()\n        set_spacing(p, before=0, after=2, line=1.05)\n        r1 = p.add_run(f\"{label}: \")\n        set_run_font(r1, size=9.8, bold=True)\n        r2 = p.add_run(values)\n        set_run_font(r2, size=9.8)\ndef configure_styles(doc):\n    section = doc.sections[0]",
+        "detail": "build_master_resumes",
+        "documentation": {}
+    },
+    {
+        "label": "configure_styles",
+        "kind": 2,
+        "importPath": "build_master_resumes",
+        "description": "build_master_resumes",
+        "peekOfCode": "def configure_styles(doc):\n    section = doc.sections[0]\n    section.page_width = Inches(8.5)\n    section.page_height = Inches(11)\n    section.top_margin = Inches(0.65)\n    section.bottom_margin = Inches(0.65)\n    section.left_margin = Inches(0.7)\n    section.right_margin = Inches(0.7)\n    section.header_distance = Inches(0.35)\n    section.footer_distance = Inches(0.35)",
+        "detail": "build_master_resumes",
+        "documentation": {}
+    },
+    {
+        "label": "build_resume",
+        "kind": 2,
+        "importPath": "build_master_resumes",
+        "description": "build_master_resumes",
+        "peekOfCode": "def build_resume(spec):\n    doc = Document()\n    configure_styles(doc)\n    name_p = doc.add_paragraph()\n    name_p.alignment = WD_ALIGN_PARAGRAPH.CENTER\n    set_spacing(name_p, after=0)\n    name = name_p.add_run(CONTACT[\"name\"].upper())\n    set_run_font(name, size=18, bold=True)\n    title_p = doc.add_paragraph()\n    title_p.alignment = WD_ALIGN_PARAGRAPH.CENTER",
+        "detail": "build_master_resumes",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "build_master_resumes",
+        "description": "build_master_resumes",
+        "peekOfCode": "def main():\n    paths = [build_resume(spec) for spec in RESUMES]\n    for path in paths:\n        print(path.resolve())\nif __name__ == \"__main__\":\n    main()",
+        "detail": "build_master_resumes",
+        "documentation": {}
+    },
+    {
+        "label": "OUT_DIR",
+        "kind": 5,
+        "importPath": "build_master_resumes",
+        "description": "build_master_resumes",
+        "peekOfCode": "OUT_DIR = Path(\"master_resumes\")\nOUT_DIR.mkdir(exist_ok=True)\nCONTACT = {\n    \"name\": \"Jabulani Ndlovu\",\n    \"location\": \"South Africa\",\n    \"email\": \"jabulani@example.com\",\n    \"linkedin\": \"linkedin.com/in/jabulani-ndlovu\",\n    \"github\": \"github.com/jabulani-ndlovu\",\n}\nEDUCATION = [",
+        "detail": "build_master_resumes",
+        "documentation": {}
+    },
+    {
+        "label": "CONTACT",
+        "kind": 5,
+        "importPath": "build_master_resumes",
+        "description": "build_master_resumes",
+        "peekOfCode": "CONTACT = {\n    \"name\": \"Jabulani Ndlovu\",\n    \"location\": \"South Africa\",\n    \"email\": \"jabulani@example.com\",\n    \"linkedin\": \"linkedin.com/in/jabulani-ndlovu\",\n    \"github\": \"github.com/jabulani-ndlovu\",\n}\nEDUCATION = [\n    \"BSc Computer Science, University of South Africa (UNISA), 2016-2019\",\n    \"National Diploma: IT, Technical University of Technology, 2013-2016; graduated with distinction\",",
+        "detail": "build_master_resumes",
+        "documentation": {}
+    },
+    {
+        "label": "EDUCATION",
+        "kind": 5,
+        "importPath": "build_master_resumes",
+        "description": "build_master_resumes",
+        "peekOfCode": "EDUCATION = [\n    \"BSc Computer Science, University of South Africa (UNISA), 2016-2019\",\n    \"National Diploma: IT, Technical University of Technology, 2013-2016; graduated with distinction\",\n]\nCERTIFICATIONS = [\n    \"IBM Certified Data Engineer\",\n    \"Watsonx.ai Technical Practitioner\",\n    \"Azure Data Engineer Associate\",\n    \"Power BI Data Analyst Associate\",\n    \"IBM AI Engineering Professional\",",
+        "detail": "build_master_resumes",
+        "documentation": {}
+    },
+    {
+        "label": "CERTIFICATIONS",
+        "kind": 5,
+        "importPath": "build_master_resumes",
+        "description": "build_master_resumes",
+        "peekOfCode": "CERTIFICATIONS = [\n    \"IBM Certified Data Engineer\",\n    \"Watsonx.ai Technical Practitioner\",\n    \"Azure Data Engineer Associate\",\n    \"Power BI Data Analyst Associate\",\n    \"IBM AI Engineering Professional\",\n    \"Watsonx.data Technical Sales\",\n    \"Prompt Engineering for Developers, IBM / CognitiveClass.ai, 2025\",\n    \"AI Fluency: Framework & Foundations, FlyRank.ai / Anthropic, 2026\",\n    \"Google Professional Data Engineer\",",
+        "detail": "build_master_resumes",
+        "documentation": {}
+    },
+    {
+        "label": "VOLUNTEER",
+        "kind": 5,
+        "importPath": "build_master_resumes",
+        "description": "build_master_resumes",
+        "peekOfCode": "VOLUNTEER = [\n    \"Code4Africa, Data Skills Mentor, 2022-Present: Mentor aspiring data professionals on Python, SQL, and data engineering; delivered workshops to 100+ participants.\",\n    \"GirlsInTech SA, AI & Career Workshop Facilitator, 2021-Present: Designed and delivered AI literacy, career, and data storytelling workshops for women entering technology.\",\n]\nCOMMON_EXPERIENCE = [\n    {\n        \"role\": \"Data + AI Engineer\",\n        \"company\": \"IBM South Africa\",\n        \"dates\": \"2022-Present\",\n        \"base\": [",
+        "detail": "build_master_resumes",
+        "documentation": {}
+    },
+    {
+        "label": "COMMON_EXPERIENCE",
+        "kind": 5,
+        "importPath": "build_master_resumes",
+        "description": "build_master_resumes",
+        "peekOfCode": "COMMON_EXPERIENCE = [\n    {\n        \"role\": \"Data + AI Engineer\",\n        \"company\": \"IBM South Africa\",\n        \"dates\": \"2022-Present\",\n        \"base\": [\n            \"Architect enterprise AI systems on IBM watsonx, including agentic workflows, LLM applications, natural-language-to-SQL pipelines, and intelligent automation for enterprise clients.\",\n            \"Lead data lakehouse migration, data governance, and analytics modernization initiatives across financial services and telecommunications environments.\",\n            \"Partner with business, architecture, data, and engineering stakeholders to translate ambiguous enterprise requirements into production-ready AI and data systems.\",\n        ],",
+        "detail": "build_master_resumes",
+        "documentation": {}
+    },
+    {
+        "label": "RESUMES",
+        "kind": 5,
+        "importPath": "build_master_resumes",
+        "description": "build_master_resumes",
+        "peekOfCode": "RESUMES = [\n    {\n        \"file\": \"Jabulani_Ndlovu_Master_ATS_Enterprise_AI_Engineer.docx\",\n        \"headline\": \"Enterprise AI Engineer\",\n        \"summary\": (\n            \"Data + AI Engineer with 5+ years of experience building enterprise-grade AI, automation, and analytics systems. \"\n            \"Specializes in IBM watsonx, agentic AI workflows, LLM applications, RAG, natural-language-to-SQL, Python, APIs, \"\n            \"AI evaluation, and governed data platforms. Known for a data-first AI engineering approach: designing trusted data \"\n            \"foundations before deploying intelligent systems that can reason, retrieve, automate, and scale.\"\n        ),",
+        "detail": "build_master_resumes",
+        "documentation": {}
+    }
+]
