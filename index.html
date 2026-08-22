@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JABULANI NDLOVU // DATA + AI ENGINEER</title>
+<title>JABULANI NDLOVU // EARLY-CAREER DATA + AI ENGINEER</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -29,6 +29,22 @@
     --font-sub:  'Rajdhani', sans-serif;
   }
 
+  body.theme-light {
+    --void:      #f6f9fc;
+    --navy:      #edf3f8;
+    --panel:     #ffffff;
+    --cyan:      #007f96;
+    --violet:    #6844d8;
+    --magenta:   #c7255d;
+    --gold:      #9a6a00;
+    --ghost:     #12202f;
+    --muted:     #58677a;
+    --border:    rgba(0,127,150,0.22);
+    --glow-c:    0 0 0 1px rgba(0,127,150,0.08), 0 12px 32px rgba(0,127,150,0.14);
+    --glow-v:    0 0 0 1px rgba(104,68,216,0.08), 0 12px 32px rgba(104,68,216,0.14);
+    --glow-m:    0 0 0 1px rgba(199,37,93,0.08), 0 12px 32px rgba(199,37,93,0.14);
+  }
+
   /* =============================================
      RESET + BASE
   ============================================= */
@@ -45,6 +61,12 @@
     overflow-x: hidden;
   }
 
+  body.theme-light {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.9), rgba(237,243,248,0.82)),
+      var(--void);
+  }
+
   /* Scanline overlay */
   body::before {
     content: '';
@@ -59,6 +81,16 @@
     );
     pointer-events: none;
     z-index: 9999;
+  }
+
+  body.theme-light::before {
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,127,150,0.025) 3px,
+      rgba(0,127,150,0.025) 6px
+    );
   }
 
   /* =============================================
@@ -85,6 +117,11 @@
     height: 60px;
   }
 
+  body.theme-light nav {
+    background: rgba(255,255,255,0.92);
+    box-shadow: 0 12px 30px rgba(15,23,42,0.08);
+  }
+
   .nav-logo {
     font-family: var(--font-hd);
     font-size: 0.75rem;
@@ -100,6 +137,12 @@
     display: flex;
     gap: 0;
     list-style: none;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
   }
 
   .nav-links a {
@@ -122,6 +165,44 @@
     background: rgba(0,245,255,0.05);
     text-shadow: var(--glow-c);
   }
+
+  .theme-toggle {
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--border);
+    background: rgba(0,245,255,0.06);
+    color: var(--cyan);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.25s ease;
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--cyan);
+    box-shadow: var(--glow-c);
+    transform: translateY(-1px);
+  }
+
+  .theme-toggle:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+  }
+
+  .theme-toggle svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .theme-toggle .sun-icon { display: none; }
+  body.theme-light .theme-toggle {
+    background: rgba(255,255,255,0.75);
+    color: var(--violet);
+  }
+  body.theme-light .theme-toggle .moon-icon { display: none; }
+  body.theme-light .theme-toggle .sun-icon { display: block; }
 
   /* =============================================
      HERO
@@ -151,6 +232,12 @@
     pointer-events: none;
   }
 
+  body.theme-light #hero::before {
+    background:
+      linear-gradient(90deg, rgba(0,127,150,0.12) 1px, transparent 1px),
+      linear-gradient(rgba(0,127,150,0.12) 1px, transparent 1px);
+  }
+
   /* Radial ambient glow */
   #hero::after {
     content: '';
@@ -161,6 +248,13 @@
       radial-gradient(ellipse 40% 30% at 20% 30%, rgba(0,245,255,0.08), transparent),
       radial-gradient(ellipse 40% 30% at 80% 30%, rgba(255,42,109,0.06), transparent);
     pointer-events: none;
+  }
+
+  body.theme-light #hero::after {
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 60%, rgba(104,68,216,0.12), transparent),
+      radial-gradient(ellipse 40% 30% at 20% 30%, rgba(0,127,150,0.12), transparent),
+      radial-gradient(ellipse 40% 30% at 80% 30%, rgba(199,37,93,0.08), transparent);
   }
 
   .hero-inner {
@@ -204,6 +298,8 @@
     position: relative;
   }
 
+  body.theme-light .hero-name { color: #07121f; }
+
   /* Glitch effect */
   .hero-name::before, .hero-name::after {
     content: attr(data-text);
@@ -217,7 +313,7 @@
   .hero-name::before {
     color: var(--cyan);
     clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
-    animation: glitch-top 4s infinite;
+    animation: glitch-top 1s infinite;
     opacity: 0;
   }
   .hero-name::after {
@@ -352,10 +448,10 @@
   .hero-chips {
     position: absolute;
     top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-45%,-50%);
     width: 100%;
     pointer-events: none;
-    z-index: 1;
+    z-index: 1.5;
   }
 
   .chip {
@@ -367,11 +463,15 @@
     text-transform: uppercase;
     padding: 0.3rem 0.8rem;
     border: 1px solid;
-    animation: float 6s ease-in-out infinite;
+    animation: float 4s ease-in-out infinite;
   }
   .chip.c { border-color: rgba(0,245,255,0.4); color: var(--cyan); }
   .chip.v { border-color: rgba(123,47,255,0.4); color: var(--violet); }
   .chip.m { border-color: rgba(255,42,109,0.4); color: var(--magenta); }
+  body.theme-light .chip {
+    background: rgba(255,255,255,0.72);
+    box-shadow: 0 10px 24px rgba(15,23,42,0.07);
+  }
 
   @keyframes float {
     0%,100% { transform: translateY(0); }
@@ -482,6 +582,16 @@
     line-height: 1.9;
     color: rgba(224,224,255,0.75);
     margin-bottom: 1rem;
+  }
+
+  body.theme-light .about-block p,
+  body.theme-light .exp-desc,
+  body.theme-light .edu-desc,
+  body.theme-light .project-desc,
+  body.theme-light .vol-desc,
+  body.theme-light .signal-copy,
+  body.theme-light .learning-note {
+    color: rgba(18,32,47,0.76);
   }
 
   .about-block p:last-child { margin-bottom: 0; }
@@ -976,6 +1086,18 @@
   z-index: 1000;
 }
 
+body.theme-light .tooltip-text {
+  background: #ffffff;
+  color: #12202f;
+  box-shadow:
+    0 16px 34px rgba(15,23,42,.16),
+    0 0 0 1px rgba(154,106,0,.1);
+}
+
+body.theme-light .tooltip-text::after {
+  border-color: #ffffff transparent transparent transparent;
+}
+
 .tooltip-text::after {
   content: "";
   position: absolute;
@@ -1067,6 +1189,11 @@
     background:
       radial-gradient(ellipse 60% 60% at 50% 50%, rgba(123,47,255,0.1), transparent);
     pointer-events: none;
+  }
+
+  body.theme-light #contact::before {
+    background:
+      radial-gradient(ellipse 60% 60% at 50% 50%, rgba(104,68,216,0.1), transparent);
   }
 
   .contact-inner { position: relative; z-index: 1; }
@@ -1251,42 +1378,130 @@
     margin-bottom: 1.4rem;
   }
 
+  body.theme-light .signal-card,
+  body.theme-light .about-block,
+  body.theme-light .exp-card,
+  body.theme-light .skill-cluster,
+  body.theme-light .edu-card,
+  body.theme-light .project-card,
+  body.theme-light .vol-card,
+  body.theme-light .badge-card,
+  body.theme-light .stack-pill,
+  body.theme-light .contact-link {
+    box-shadow: 0 14px 34px rgba(15,23,42,0.07);
+  }
+
+  body.theme-light .section-line {
+    opacity: 0.55;
+  }
+
+  body.theme-light .btn-primary:hover {
+    color: #ffffff;
+  }
+  /* Mode-aware pillar cards */
+  .signal-card {
+    --pillar-accent: var(--cyan);
+    --pillar-fill: rgba(0,245,255,0.06);
+    background:
+      linear-gradient(145deg, var(--pillar-fill), rgba(17,17,36,0.72) 58%),
+      var(--panel);
+    border-color: color-mix(in srgb, var(--pillar-accent) 32%, transparent);
+  }
+
+  .signal-card::before {
+    background: var(--pillar-accent);
+    box-shadow: 0 0 14px color-mix(in srgb, var(--pillar-accent) 42%, transparent);
+  }
+
+  .signal-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid color-mix(in srgb, var(--pillar-accent) 16%, transparent);
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  .pillar-data { --pillar-accent: var(--cyan); --pillar-fill: rgba(0,245,255,0.07); }
+  .pillar-systems { --pillar-accent: var(--gold); --pillar-fill: rgba(245,197,24,0.07); }
+  .pillar-ai { --pillar-accent: var(--violet); --pillar-fill: rgba(123,47,255,0.08); }
+  .pillar-delivery { --pillar-accent: var(--magenta); --pillar-fill: rgba(255,42,109,0.07); }
+
+  .signal-card .signal-kicker { color: var(--pillar-accent); }
+
+  body.theme-light .signal-card {
+    background:
+      linear-gradient(145deg, var(--pillar-fill), rgba(255,255,255,0.94) 62%),
+      #ffffff;
+    border-color: color-mix(in srgb, var(--pillar-accent) 30%, #d8e4ee);
+  }
+
+  body.theme-light .pillar-data { --pillar-fill: rgba(0,127,150,0.10); }
+  body.theme-light .pillar-systems { --pillar-fill: rgba(154,106,0,0.11); }
+  body.theme-light .pillar-ai { --pillar-fill: rgba(104,68,216,0.10); }
+  body.theme-light .pillar-delivery { --pillar-fill: rgba(199,37,93,0.10); }
+
+  body.theme-light .signal-card::after {
+    border-color: color-mix(in srgb, var(--pillar-accent) 18%, transparent);
+  }
+
 </style>
 </head>
 <body>
+<script>
+  (function() {
+    try {
+      const theme = localStorage.getItem('jn_portfolio_theme');
+      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      if (theme === 'light' || (!theme && prefersLight)) document.body.classList.add('theme-light');
+    } catch (e) {}
+  })();
+</script>
 
 <!-- ===================== NAV ===================== -->
 <nav>
   <div class="nav-logo">JN<span>/</span>PORTFOLIO</div>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#education">Education</a></li>
-    <li><a href="#projects">Systems</a></li>
-    <li><a href="#volunteer">Impact</a></li>
-    <li><a href="#badges">Learning</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
+  <div class="nav-actions">
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#projects">Systems</a></li>
+      <li><a href="#volunteer">Impact</a></li>
+      <li><a href="#badges">Learning</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false" title="Toggle light theme">
+      <svg class="moon-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3a7 7 0 1 0 11.5 11.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      </svg>
+      <svg class="sun-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
+        <path d="M12 2v3M12 19v3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M2 12h3M19 12h3M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
 </nav>
 
 <!-- ===================== HERO ===================== -->
 <section id="hero">
   <div class="hero-chips" aria-hidden="true">
+    <div class="chip g">Requirements Gathering</div>
     <div class="chip c">Trusted Data</div>
-    <div class="chip v">Agentic AI</div>
-    <div class="chip m">Python APIs</div>
-    <div class="chip c">IBM Watsonx</div>
+    <div class="chip v">Agentic AI Developer</div>
+    <div class="chip m">FastAPIs & RestAPIs</div>
+    <div class="chip c">IBM Watsonx Suite</div>
     <div class="chip v">MCP Tools</div>
-    <div class="chip m">Kafka + FastAPI</div>
+    <div class="chip m">Apache Kafka + Flink SQL</div>
     <div class="chip c">Analytics Systems</div>
     <div class="chip g">Enterprise Delivery</div>
   </div>
 
   <div class="hero-inner">
-    <div class="hero-eyebrow">Portfolio // Career Knowledge Base v3.0</div>
+    <div class="hero-eyebrow">My Portfolio v1.0</div>
     <h1 class="hero-name" data-text="JABULANI NDLOVU">JABULANI NDLOVU</h1>
-    <p class="hero-title">Data &amp; AI Engineer &nbsp;|&nbsp; Building Agentic AI &amp; Analytics Systems</p>
+    <p class="hero-title">Early-Career Data &amp; AI Engineer  &nbsp;|&nbsp; Building Agentic AI &amp; Analytics Systems</p>
     <p class="hero-tagline">"Data-driven first. AI-enabled second."</p>
     <p class="hero-sub">I build and contribute to intelligent systems that connect trusted data, analytics, APIs, automation and AI to solve real business problems.</p>
 
@@ -1310,7 +1525,7 @@
         <span class="lbl">Systems &amp; Labs</span>
       </div>
       <div class="hero-stat">
-        <span class="num">AI</span>
+        <span class="num">Data Intelligence &amp; Agentic AI</span>
         <span class="lbl">Systems Direction</span>
       </div>
     </div>
@@ -1353,7 +1568,7 @@
           </div>
           <div class="kv-row">
             <span class="kv-key">Primary Stack</span>
-            <span class="kv-val">Python, SQL, FastAPI, Kafka, MongoDB, watsonx, MCP</span>
+            <span class="kv-val">Python, SQL, FastAPI, Kafka, MongoDB, IBM Watsonx Suite, MCP</span>
           </div>
           <div class="kv-row">
             <span class="kv-key">Domains</span>
@@ -1368,23 +1583,19 @@
     </div>
 
     <div class="signal-grid fade-up">
-      <div class="signal-card">
-        <div class="signal-kicker">01 // Data</div>
+      <div class="signal-card pillar-data">       <div class="signal-kicker">01 // Data</div>
         <div class="signal-title">Trusted foundations</div>
         <p class="signal-copy">ETL, SQL, Db2, PySpark, Kafka, data validation, data quality, analytics-ready datasets and governance-aware design.</p>
       </div>
-      <div class="signal-card">
-        <div class="signal-kicker">02 // Systems</div>
+      <div class="signal-card pillar-systems">       <div class="signal-kicker">02 // Systems</div>
         <div class="signal-title">Software around the data</div>
         <p class="signal-copy">FastAPI services, REST and GraphQL integration, MCP servers, backend concepts, Docker, GitHub and deployment readiness.</p>
       </div>
-      <div class="signal-card">
-        <div class="signal-kicker">03 // AI</div>
+      <div class="signal-card pillar-ai">       <div class="signal-kicker">03 // AI</div>
         <div class="signal-title">Selective intelligence</div>
         <p class="signal-copy">LLM applications, Natural Language-to-SQL, prompt engineering, AI evaluation, tool calling, agent workflows and RAG concepts.</p>
       </div>
-      <div class="signal-card">
-        <div class="signal-kicker">04 // Delivery</div>
+      <div class="signal-card pillar-delivery">       <div class="signal-kicker">04 // Delivery</div>
         <div class="signal-title">Enterprise context</div>
         <p class="signal-copy">Technical discovery, requirements, architecture discussions, stakeholder alignment, PoC planning, sizing and governance exposure.</p>
       </div>
@@ -1416,11 +1627,11 @@
             </div>
             <span class="exp-period">Current</span>
           </div>
-          <p class="exp-desc">Hands-on and client-facing exposure across Python, SQL, ETL, FastAPI, Kafka, Confluent, PySpark, LLM applications, MCP/tool calling, watsonx technologies, technical discovery, requirements support, architecture discussions and governance-aware solution engineering.</p>
+          <p class="exp-desc">Hands-on and client-facing exposure across Python, SQL, ETL, FastAPI, Kafka, Confluent, PySpark, LLM applications, MCP/tool calling, IBM Watsonx technologies, technical discovery, requirements support, architecture discussions and governance-aware solution engineering.</p>
           <div class="exp-tags">
             <span class="tag c">Python</span>
             <span class="tag c">SQL</span>
-            <span class="tag v">watsonx</span>
+            <span class="tag v">IBM Watsonx Suite</span>
             <span class="tag v">MCP</span>
             <span class="tag m">Kafka</span>
             <span class="tag g">Governance</span>
@@ -1587,8 +1798,12 @@
         <div class="project-type">LLM + Agentic AI + Analytics</div>
         <div class="project-status">Built / Portfolio System</div>
         <div class="project-name">Pulse360 AI Performance Analytics</div>
+        <div class="badge-card fade-up"><span class="badge-icon" style="color:#ff2a6d">◉</span><div class="badge-name">Live: Running </div><img src="./images/graphs.png" width="250" height="190"/></div>
+
         <p class="project-desc">LLM-enabled performance analytics concept showing the jump from generation to structured system behavior: feedback interpretation, database analysis, MCP tool calls and output artifacts such as PDF reports and CSV development outputs.</p>
         <div class="project-footer"><div class="exp-tags"><span class="tag v">LLM</span><span class="tag c">MCP</span><span class="tag m">Analytics</span></div><a href="#" class="project-link">Case Study Pending</a></div>
+        <div class="" style="text-align: center;"><a href="https://pulse360-gkt8.onrender.com/login">Live System</a></div>
+        <div style="text-align: center;"><a href="https://pulse360-gkt8.onrender.com/login">github</a></div>
       </div>
 
       <div class="project-card fade-up">
@@ -1785,6 +2000,27 @@
 
 <!-- ===================== SCRIPTS ===================== -->
 <script>
+  // Theme toggle with saved visitor preference
+  const themeToggle = document.getElementById('theme-toggle');
+  const savedTheme = localStorage.getItem('jn_portfolio_theme');
+  const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+
+  function applyTheme(theme) {
+    const isLight = theme === 'light';
+    document.body.classList.toggle('theme-light', isLight);
+    themeToggle?.setAttribute('aria-pressed', String(isLight));
+    themeToggle?.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
+    themeToggle?.setAttribute('title', isLight ? 'Switch to dark theme' : 'Switch to light theme');
+  }
+
+  applyTheme(savedTheme || (prefersLight ? 'light' : 'dark'));
+
+  themeToggle?.addEventListener('click', () => {
+    const nextTheme = document.body.classList.contains('theme-light') ? 'dark' : 'light';
+    localStorage.setItem('jn_portfolio_theme', nextTheme);
+    applyTheme(nextTheme);
+  });
+
   // Intersection Observer for fade-up animations
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
@@ -2241,6 +2477,104 @@
     font-family: var(--font-hd);
     font-size: 0.6rem;
   }
+
+  /* Mode-aware Profile Assistant skin */
+  body.theme-light #ship-btn {
+    filter: drop-shadow(0 10px 18px rgba(0,127,150,0.25));
+  }
+
+  body.theme-light #ship-btn:hover {
+    filter: drop-shadow(0 12px 24px rgba(0,127,150,0.35)) drop-shadow(0 0 22px rgba(104,68,216,0.18));
+  }
+
+
+  body.theme-light #ship-btn svg ellipse,
+  body.theme-light #ship-btn svg path {
+    stroke: var(--cyan);
+  }
+
+  body.theme-light #ship-btn svg line {
+    stroke: rgba(0,127,150,0.46);
+  }
+
+  body.theme-light #ship-btn svg circle {
+    fill: var(--magenta);
+  }
+  body.theme-light #ship-btn .ship-tooltip {
+    background: rgba(255,255,255,0.96);
+    border-color: rgba(0,127,150,0.24);
+    color: var(--cyan);
+    box-shadow: 0 12px 26px rgba(15,23,42,0.12);
+  }
+
+  body.theme-light #chat-panel {
+    background: rgba(255,255,255,0.98);
+    border-color: rgba(0,127,150,0.24);
+    box-shadow: 0 20px 52px rgba(15,23,42,0.18), inset 0 0 0 1px rgba(255,255,255,0.8);
+  }
+
+  body.theme-light .chat-header {
+    background: linear-gradient(135deg, rgba(0,127,150,0.08), rgba(104,68,216,0.06));
+    border-bottom-color: rgba(0,127,150,0.14);
+  }
+
+  body.theme-light .chat-avatar {
+    background: linear-gradient(135deg, rgba(0,127,150,0.12), rgba(104,68,216,0.12));
+  }
+
+  body.theme-light .chat-suggestions,
+  body.theme-light .chat-input-row,
+  body.theme-light #analytics-panel {
+    background: rgba(237,243,248,0.86);
+  }
+
+  body.theme-light .sugg-chip {
+    background: rgba(255,255,255,0.88);
+    border-color: rgba(0,127,150,0.18);
+    color: rgba(18,32,47,0.76);
+  }
+
+  body.theme-light .sugg-chip:hover {
+    background: rgba(0,127,150,0.08);
+    color: var(--cyan);
+  }
+
+  body.theme-light .msg.bot .msg-bubble,
+  body.theme-light .typing-indicator {
+    background: rgba(237,243,248,0.96);
+    border-color: rgba(0,127,150,0.16);
+    color: rgba(18,32,47,0.84);
+  }
+
+  body.theme-light .msg.user .msg-bubble {
+    background: rgba(104,68,216,0.92);
+    border-color: rgba(104,68,216,0.36);
+    color: #ffffff;
+  }
+
+  body.theme-light .msg-time,
+  body.theme-light .chat-footer {
+    color: rgba(88,103,122,0.86);
+  }
+
+  body.theme-light #chat-input {
+    background: rgba(255,255,255,0.96);
+    border-color: rgba(0,127,150,0.24);
+    color: #12202f;
+  }
+
+  body.theme-light #chat-input::placeholder {
+    color: rgba(88,103,122,0.82);
+  }
+
+  body.theme-light .analytics-row,
+  body.theme-light .tq-item {
+    border-bottom-color: rgba(15,23,42,0.08);
+  }
+
+  body.theme-light .tq-item {
+    color: rgba(18,32,47,0.7);
+  }
 </style>
 
 <!-- SPACESHIP BUTTON -->
@@ -2633,3 +2967,6 @@
 </script>
 </body>
 </html>
+
+
+

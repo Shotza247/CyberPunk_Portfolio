@@ -50,3 +50,17 @@ The floating Profile Assistant is currently a local keyword matcher. The planned
 3. MVP 3: add an OpenAI embeddings path and agentic tool-calling capabilities.
 
 See `ROADMAP_ISSUES.md` for proposed milestones, issue backlog, and vector database options.
+
+## Feature Log
+
+### 2026-08-21 - Theme Toggle & Visual Polish
+
+- Added a persistent light/dark theme toggle in the top navigation.
+- Added a dedicated light palette instead of a simple color inversion, avoiding white text on white backgrounds.
+- Updated the four core pillar cards with mode-aware accent colors: Data, Systems, AI, and Delivery now use coordinated cyan, gold, violet, and magenta accents.
+- Updated the Profile Assistant visual treatment so chat panels, message bubbles, suggestion chips, inputs, tooltips, and analytics remain readable and aligned in both dark and light modes.
+- Theme preference is stored locally in the visitor's browser.
+
+## Documentation Convention
+
+Every new feature, visual improvement, assistant capability, architecture change, or meaningful content correction should be recorded in the Feature Log with the date, what changed, and why it matters.
