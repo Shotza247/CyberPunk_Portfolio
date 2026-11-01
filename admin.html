@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0a0f">
+  <title>PORTFOLIO ADMIN // SECURE SIGN-IN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">JN<span>/</span>PORTFOLIO</a>
+    <nav class="topbar-links" aria-label="Admin navigation">
+      <a href="index.html#badges">View portfolio badges</a>
+      <a id="workbench-link" href="#backend-workbench">MongoDB workbench ↓</a>
+      <button class="button button-danger" id="sign-out" type="button" hidden>SIGN OUT</button>
+    </nav>
+  </header>
+
+  <main>
+    <p class="eyebrow">CONTROL DECK // LOCAL ADMIN</p>
+    <h1>LEX <span>ADMIN ACCESS</span></h1>
+    <p class="intro">Owner sign-in for portfolio credentials and the MongoDB/RAG operations deck.</p>
+
+    <div class="login-wrap">
+      <section id="admin-login" class="panel login-panel" aria-labelledby="login-title">
+        <div class="login-lock">RESTRICTED // OWNER ACCOUNT ONLY</div>
+        <h2 id="login-title">SECURE ADMIN SIGN-IN</h2>
+        <p class="panel-intro">Use the administrator credentials configured for this deployment.</p>
+        <form id="login-form" autocomplete="on">
+          <div class="field">
+            <label for="login-username">Username</label>
+            <input id="login-username" name="username" autocomplete="username" maxlength="80" required>
+          </div>
+          <div class="field">
+            <label for="login-email">Email address</label>
+            <input id="login-email" name="email" type="email" autocomplete="email" maxlength="254" required>
+          </div>
+          <div class="field">
+            <label for="login-password">Password</label>
+            <input id="login-password" name="password" type="password" autocomplete="current-password" maxlength="256" required>
+          </div>
+          <button class="button" id="login-submit" type="submit">AUTHENTICATE ↗</button>
+        </form>
+        <p id="login-status" class="status" role="status" aria-live="polite"></p>
+      </section>
+    </div>
+
+    <div id="admin-dashboard" hidden>
+      <div class="session-bar">
+        <span>AUTHENTICATED AS <strong id="signed-in-identity"></strong></span>
+        <span>Session token remains in memory and expires automatically.</span>
+      </div>
+
+      <div class="console-grid">
+      <section class="panel" aria-labelledby="add-badge-title">
+        <h2 id="add-badge-title">01 // ADD A CREDENTIAL</h2>
+        <p class="panel-intro">Credential links are stored in MongoDB and appear in the public portfolio.</p>
+        <form id="badge-form">
+          <div class="field">
+            <label for="badge-title">Badge or credential name</label>
+            <input id="badge-title" name="title" maxlength="120" required placeholder="e.g. Cloud Foundations">
+          </div>
+          <div class="field">
+            <label for="badge-issuer">Issuer</label>
+            <input id="badge-issuer" name="issuer" maxlength="80" placeholder="e.g. Credly · IBM">
+          </div>
+          <div class="field">
+            <label for="badge-url">Credential link</label>
+            <input id="badge-url" name="url" type="url" maxlength="2048" required placeholder="https://…">
+            <p class="hint">Use the public credential URL. HTTPS links only.</p>
+          </div>
+          <div class="field">
+            <label for="badge-description">Short note <span>(optional)</span></label>
+            <textarea id="badge-description" name="description" maxlength="280" placeholder="What does this credential cover?"></textarea>
+          </div>
+          <div class="form-actions">
+            <button class="button" type="submit">+ ADD TO PORTFOLIO</button>
+            <a class="button" href="index.html#badges">OPEN BADGES ↗</a>
+          </div>
+        </form>
+        <p id="badge-admin-status" class="status" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="panel" aria-labelledby="api-panel-title">
+        <h2 id="api-panel-title">02 // API CONNECTIONS</h2>
+        <p class="panel-intro">Connected service target: <strong id="api-origin-label">localhost:8765</strong></p>
+        <button class="button" id="backend-check" type="button">CHECK API STATUS</button>
+        <p id="backend-status" class="status" role="status" aria-live="polite">Not checked yet.</p>
+
+        <div class="api-links">
+          <a class="api-link" id="workbench-panel-link" href="#backend-workbench">
+            <span>Open authenticated MongoDB workbench</span><span>↓</span>
+          </a>
+        </div>
+
+        <div class="route-list" aria-label="Available backend API routes">
+          <div class="route"><strong>GET</strong> /api/status</div>
+          <div class="route"><strong>GET</strong> /api/mongodb/databases</div>
+          <div class="route"><strong>GET</strong> /api/mongodb/collections</div>
+          <div class="route"><strong>GET</strong> /api/mongodb/collection/summary</div>
+          <div class="route"><strong>POST</strong> /api/index/create</div>
+          <div class="route"><strong>POST</strong> /api/document/extract/upload</div>
+          <div class="route"><strong>POST</strong> /api/document/extract/path</div>
+          <div class="route"><strong>POST</strong> /api/document/chunks</div>
+          <div class="route"><strong>POST</strong> /api/index/document</div>
+          <div class="route"><strong>POST</strong> /api/search</div>
+          <div class="route"><strong>POST</strong> /api/rerank</div>
+          <div class="route"><strong>POST</strong> /api/ask</div>
+        </div>
+        <p class="local-notice">Public profile chat and badge reads remain public. MongoDB browsing, indexing, search and badge mutations require a valid owner session.</p>
+      </section>
+    </div>
+
+    <section class="panel managed-panel" aria-labelledby="managed-badges-title">
+      <h2 id="managed-badges-title">03 // MANAGED BADGES</h2>
+      <p class="panel-intro">Credentials managed in MongoDB. Existing verified portfolio credentials are not changed here.</p>
+      <div id="managed-badges" class="managed-list"></div>
+      </section>
+
+      <section class="panel workbench-panel" aria-labelledby="workbench-title">
+        <h2 id="workbench-title">04 // MONGODB + RAG OPERATIONS</h2>
+        <p class="panel-intro">Authenticated workbench for database inspection, document ingestion, vector search and reranking.</p>
+        <iframe id="backend-workbench" class="workbench-frame" title="Authenticated MongoDB and RAG backend workbench" src="about:blank" referrerpolicy="no-referrer"></iframe>
+      </section>
+    </div>
+  </main>
+
+  <button id="ship-btn" type="button" aria-label="Open Lex profile chat" title="Talk to Lex">
+    <span class="ship-tooltip">TEST LEX // ASK ABOUT JABULANI</span>
+    <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true">
+      <ellipse cx="32" cy="30" rx="10" ry="18" fill="rgba(0,245,255,0.15)" stroke="#00f5ff" stroke-width="1.5"/>
+      <ellipse cx="32" cy="22" rx="5.5" ry="7" fill="rgba(123,47,255,0.3)" stroke="#7b2fff" stroke-width="1"/>
+      <path d="M22 36 L8 44 L18 38 Z" fill="rgba(0,245,255,0.2)" stroke="#00f5ff" stroke-width="1"/>
+      <path d="M42 36 L56 44 L46 38 Z" fill="rgba(0,245,255,0.2)" stroke="#00f5ff" stroke-width="1"/>
+      <ellipse cx="32" cy="48" rx="4" ry="2.5" fill="rgba(255,42,109,0.6)" stroke="#ff2a6d" stroke-width="0.8"/>
+      <ellipse cx="32" cy="49" rx="2.5" ry="1.5" fill="#ff2a6d"/>
+      <line x1="28" y1="28" x2="36" y2="28" stroke="rgba(0,245,255,0.4)" stroke-width="0.8"/>
+      <line x1="27" y1="32" x2="37" y2="32" stroke="rgba(0,245,255,0.4)" stroke-width="0.8"/>
+      <circle cx="22" cy="37" r="1.5" fill="#ff2a6d" opacity="0.8"/>
+      <circle cx="42" cy="37" r="1.5" fill="#ff2a6d" opacity="0.8"/>
+      <circle cx="32" cy="14" r="1.5" fill="#00f5ff" opacity="0.9"/>
+    </svg>
+  </button>
+
+  <div id="chat-panel" role="dialog" aria-label="Lex profile assistant chat" aria-modal="true">
+    <div class="chat-header">
+      <div class="chat-avatar" aria-hidden="true">🛸</div>
+      <div class="chat-header-info">
+        <div class="chat-agent-name">LEX // Profile Agent</div>
+        <div class="chat-status" id="chat-status" data-state="local" aria-live="polite">TEST MODE · Uses the live profile API</div>
+      </div>
+      <button class="chat-close" id="chat-close-btn" type="button" aria-label="Close chat">✕</button>
+    </div>
+
+    <div class="chat-suggestions" id="chat-suggestions">
+      <p>Quick questions</p>
+      <button class="sugg-chip" type="button" data-q="What is Jabulani's current role?">Current Role</button>
+      <button class="sugg-chip" type="button" data-q="What skills does Jabulani have?">Skills</button>
+      <button class="sugg-chip" type="button" data-q="Tell me about Jabulani's projects">Projects</button>
+      <button class="sugg-chip" type="button" data-q="What certifications does Jabulani have?">Certifications</button>
+      <button class="sugg-chip" type="button" data-q="Where did Jabulani study?">Education</button>
+      <button class="sugg-chip" type="button" data-q="How can I contact Jabulani?">Contact</button>
+    </div>
+
+    <div id="chat-messages" aria-live="polite"></div>
+
+    <div id="analytics-panel">
+      <div class="analytics-title">// SESSION ANALYTICS</div>
+      <div class="analytics-row">Total sessions <span id="an-sessions">0</span></div>
+      <div class="analytics-row">Total questions <span id="an-questions">0</span></div>
+      <div class="analytics-row">Unique visitors <span id="an-visitors">0</span></div>
+      <div class="analytics-row">Last visit <span id="an-last">—</span></div>
+      <div class="top-questions" id="an-top-questions"></div>
+    </div>
+
+    <div class="chat-input-row">
+      <input id="chat-input" type="text" placeholder="Ask about experience, skills, projects..." autocomplete="off" maxlength="1000" aria-label="Ask Lex a question">
+      <button id="chat-send" type="button" aria-label="Send message">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
+    </div>
+
+    <div class="chat-footer">
+      <button class="chat-analytics-btn" id="analytics-toggle" type="button">VIEW SESSION ANALYTICS</button>
+      &nbsp;·&nbsp; Powered by Lex Agent v1.0
+    </div>
+  </div>
+
+  <footer>LEX // OWNER-ONLY ADMIN CONSOLE · SERVER-VERIFIED ACCESS</footer>
+  <script src="api-config.js"></script>
+  <script src="profile-assistant.js"></script>
+  <script src="badge-admin.js"></script>
+</body>
+</html>

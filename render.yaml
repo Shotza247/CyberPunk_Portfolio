@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: cyberpunk-portfolio
+    runtime: static
+    buildCommand: python scripts/build_frontend.py
+    staticPublishPath: ./dist
+    envVars:
+      - key: PORTFOLIO_API_BASE_URL
+        sync: false
