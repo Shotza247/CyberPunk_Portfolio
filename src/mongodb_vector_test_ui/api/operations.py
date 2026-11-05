@@ -1391,7 +1391,7 @@ async function askLex(event) {{
   $("chat-transcript").appendChild(thinking);
   $("chat-transcript").scrollTop = $("chat-transcript").scrollHeight;
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 180000);
+  const timeout = setTimeout(() => controller.abort(), 300000);
   let started = performance.now();
   let healthMs = null;
   const status = $("chat-health");

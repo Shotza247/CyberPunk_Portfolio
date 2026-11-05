@@ -98,8 +98,8 @@
   const RAG_API_BASE_URL = window.PORTFOLIO_API_BASE_URL || 'http://localhost:8765';
   const RAG_TOP_K = 3;
   const RAG_CHAT_MODEL = 'gpt-5.5';
-  const RAG_HEALTH_TIMEOUT_MS = 5000;
-  const RAG_REQUEST_TIMEOUT_MS = 180000;
+  const RAG_HEALTH_TIMEOUT_MS = 10000;
+  const RAG_REQUEST_TIMEOUT_MS = 300000;
 
   /* =============================================
      FUZZY MATCH — find best KB entry
@@ -195,6 +195,7 @@
   let isOpen = false;
   let greeted = false;
   let isSending = false;
+  let healthCheckSequence = 0;
 
   function ts() {
     return new Date().toLocaleTimeString('en-ZA', { hour:'2-digit', minute:'2-digit' });
@@ -300,9 +301,12 @@
   }
 
   async function checkRagHealth() {
+    const sequence = ++healthCheckSequence;
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), RAG_HEALTH_TIMEOUT_MS);
     const started = performance.now();
+    chatStatusEl.dataset.state = 'loading';
+    chatStatusEl.textContent = 'Checking RAG API health...';
     try {
       const response = await fetch(`${RAG_API_BASE_URL}/api/status`, {
         method: 'GET',
@@ -324,12 +328,24 @@
           `RAG is configured for ${payload.config?.chat_model || 'an unknown model'}; ${RAG_CHAT_MODEL} is required.`
         );
       }
-      return { elapsedMs: performance.now() - started };
-    } catch (error) {
-      if (error.name === 'AbortError') {
-        throw new Error(`RAG health check timed out after ${RAG_HEALTH_TIMEOUT_MS / 1000} seconds.`);
+      const elapsedMs = performance.now() - started;
+      if (sequence === healthCheckSequence) {
+        chatStatusEl.dataset.state = 'connected';
+        chatStatusEl.textContent = `RAG API ready · health ${elapsedMs.toFixed(0)} ms`;
       }
-      throw error;
+      return { elapsedMs };
+    } catch (error) {
+      const healthError = error.name === 'AbortError'
+        ? new Error(`RAG health check timed out after ${RAG_HEALTH_TIMEOUT_MS / 1000} seconds.`)
+        : error;
+      if (sequence === healthCheckSequence) {
+        chatStatusEl.dataset.state = 'error';
+        chatStatusEl.textContent = `RAG API unavailable · ${healthError.message}`;
+      }
+      if (error.name === 'AbortError') {
+        throw healthError;
+      }
+      throw healthError;
     } finally {
       clearTimeout(timeoutId);
     }
@@ -464,6 +480,9 @@
     isOpen = true;
     panel.classList.add('open');
     shipBtn.style.filter = 'drop-shadow(0 0 24px rgba(0,245,255,1)) drop-shadow(0 0 48px rgba(123,47,255,0.6))';
+    void checkRagHealth().catch(error => {
+      console.error('Lex RAG health check failed.', error);
+    });
     recordSession();
     if (!greeted) {
       greeted = true;
@@ -521,5 +540,9 @@
   // Close on Escape
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && isOpen) closeChat();
+  });
+
+  void checkRagHealth().catch(error => {
+    console.error('Lex RAG health check failed on page load.', error);
   });
 })();
