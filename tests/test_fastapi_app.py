@@ -93,6 +93,22 @@ def test_admin_page_reuses_floating_profile_chat_widget() -> None:
     assert '<script src="profile-assistant.js"></script>' in admin_html
 
 
+def test_profile_chat_checks_health_on_load_and_wake_with_extended_timeouts() -> None:
+    assistant_js = (Path(__file__).resolve().parents[1] / "profile-assistant.js").read_text(
+        encoding="utf-8"
+    )
+
+    assert "const RAG_HEALTH_TIMEOUT_MS = 10000;" in assistant_js
+    assert "const RAG_REQUEST_TIMEOUT_MS = 300000;" in assistant_js
+    assert "void checkRagHealth().catch(error => {" in assistant_js
+    assert "Lex RAG health check failed on page load." in assistant_js
+    open_chat = assistant_js.split("function openChat()", 1)[1].split(
+        "function closeChat()", 1
+    )[0]
+    assert "void checkRagHealth()" in open_chat
+    assert "RAG /api/ask timed out after ${RAG_REQUEST_TIMEOUT_MS / 1000} seconds." in assistant_js
+
+
 def test_admin_api_routes_require_bearer_authentication() -> None:
     client = TestClient(app)
 
